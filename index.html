@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaidaz18</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0d0d0d; --bg2: #141414; --bg3: #1c1c1c;
+  --text: #e8e8e8; --muted: #666; --subtle: #2a2a2a;
+  --accent: #c8f0d8;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Bricolage Grotesque', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.25rem 4rem;
+  transition: background 0.3s, border-color 0.3s;
+  border-bottom: 1px solid transparent;
+}
+nav.scrolled { background: rgba(13,13,13,0.9); backdrop-filter: blur(12px); border-color: var(--subtle); }
+.nav-logo { font-size: 0.95rem; font-weight: 500; color: var(--text); text-decoration: none; letter-spacing: 0.03em; }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 400; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+
+/* HERO */
+.hero { position: relative; height: 100vh; min-height: 580px; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 4rem 5rem; }
+.hero-bg { position: absolute; inset: 0; background: url('https://kaidaz18yt.github.io/images/lander.png') center top / cover no-repeat; }
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(13,13,13,0.1) 0%, rgba(13,13,13,0.45) 50%, #0d0d0d 100%); }
+.hero-content { position: relative; z-index: 2; max-width: 640px; }
+.hero-eyebrow { font-size: 0.72rem; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.25rem; opacity: 0; animation: up 0.6s 0.1s forwards; }
+.hero-title { font-family: 'Instrument Serif', serif; font-size: clamp(3rem, 6.5vw, 5.5rem); font-weight: 400; line-height: 1.04; letter-spacing: -0.01em; margin-bottom: 1.5rem; opacity: 0; animation: up 0.6s 0.25s forwards; }
+.hero-title em { font-style: italic; color: rgba(232,232,232,0.45); }
+.hero-sub { font-size: 1rem; font-weight: 300; color: var(--muted); line-height: 1.8; max-width: 440px; margin-bottom: 2.5rem; opacity: 0; animation: up 0.6s 0.4s forwards; }
+.hero-actions { display: flex; gap: 0.875rem; flex-wrap: wrap; opacity: 0; animation: up 0.6s 0.55s forwards; }
+.btn { font-family: 'Bricolage Grotesque', sans-serif; font-size: 0.85rem; font-weight: 400; padding: 0.65rem 1.4rem; border-radius: 4px; text-decoration: none; cursor: pointer; transition: opacity 0.15s, background 0.15s, border-color 0.15s, color 0.15s; letter-spacing: 0.02em; }
+.btn-fill { background: var(--text); color: #0d0d0d; border: 1px solid var(--text); }
+.btn-fill:hover { opacity: 0.8; }
+.btn-outline { background: transparent; color: var(--muted); border: 1px solid var(--subtle); }
+.btn-outline:hover { color: var(--text); border-color: #444; }
+
+/* ABOUT */
+.about { padding: 7rem 4rem; border-top: 1px solid var(--subtle); }
+.about-inner { max-width: 1060px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.5fr; gap: 7rem; align-items: start; }
+.about-left { position: sticky; top: 6rem; }
+.section-label { font-size: 0.68rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.75rem; }
+.about-heading { font-family: 'Instrument Serif', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 400; line-height: 1.2; margin-bottom: 0; }
+.about-heading em { font-style: italic; color: var(--muted); }
+.about-photo { display: block; width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center top; border-radius: 4px; border: 1px solid var(--subtle); margin-top: 2rem; }
+.about-body { font-size: 1rem; font-weight: 300; color: rgba(232,232,232,0.55); line-height: 1.85; margin-bottom: 3rem; }
+.about-body p + p { margin-top: 1.2rem; }
+.divider { border: none; border-top: 1px solid var(--subtle); margin: 2.5rem 0; }
+.skill-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.skill-chip { font-size: 0.78rem; padding: 0.3rem 0.8rem; border: 1px solid var(--subtle); border-radius: 100px; color: var(--muted); }
+
+/* PROJECTS */
+.projects { padding: 7rem 4rem; border-top: 1px solid var(--subtle); background: var(--bg2); }
+.projects-inner { max-width: 1060px; margin: 0 auto; }
+.section-header { margin-bottom: 3rem; }
+.section-heading { font-family: 'Instrument Serif', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 400; line-height: 1.15; margin-top: 0.5rem; }
+.projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--subtle); border-radius: 4px; overflow: hidden; }
+.project-card { background: var(--bg2); text-decoration: none; color: inherit; padding: 1.75rem; display: flex; flex-direction: column; gap: 0.6rem; border-right: 1px solid var(--subtle); border-bottom: 1px solid var(--subtle); transition: background 0.18s; }
+.project-card:hover { background: var(--bg3); }
+.project-num { font-size: 0.68rem; color: #3a3a3a; letter-spacing: 0.1em; font-weight: 400; }
+.project-thumb { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 2px; border: 1px solid var(--subtle); display: block; margin-bottom: 0.25rem; }
+.project-name { font-family: 'Instrument Serif', serif; font-size: 1.2rem; font-weight: 400; line-height: 1.25; flex: 1; color: var(--text); }
+.project-desc { font-size: 0.83rem; font-weight: 300; color: var(--muted); line-height: 1.6; }
+.project-link { font-size: 0.75rem; color: #3a3a3a; letter-spacing: 0.02em; margin-top: 0.25rem; transition: color 0.15s; }
+.project-card:hover .project-link { color: var(--accent); }
+
+/* GALLERY */
+.gallery { padding: 7rem 0; border-top: 1px solid var(--subtle); }
+.gallery-header { padding: 0 4rem 3rem; max-width: 1060px; margin: 0 auto; }
+.gallery-wrap { overflow: hidden; width: 100%; cursor: grab; user-select: none; }
+.gallery-wrap:active { cursor: grabbing; }
+.gallery-track { display: flex; gap: 10px; width: max-content; }
+.gallery-item { flex: 0 0 300px; height: 210px; border-radius: 3px; overflow: hidden; background: var(--bg3); border: 1px solid var(--subtle); }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gallery-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--subtle); }
+.gallery-controls { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; padding: 1.5rem 4rem 0; max-width: 1060px; margin: 0 auto; }
+.gctl { width: 34px; height: 34px; border-radius: 3px; border: 1px solid var(--subtle); background: none; color: var(--muted); cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, color 0.15s; }
+.gctl:hover { border-color: #444; color: var(--text); }
+
+/* FOOTER */
+footer { border-top: 1px solid var(--subtle); padding: 2.25rem 4rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.footer-copy { font-size: 0.8rem; color: var(--muted); }
+.footer-links { display: flex; gap: 2rem; list-style: none; }
+.footer-links a { color: var(--muted); text-decoration: none; font-size: 0.78rem; transition: color 0.15s; }
+.footer-links a:hover { color: var(--text); }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s, transform 0.55s; }
+.reveal.in { opacity: 1; transform: none; }
+
+@keyframes up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 900px) {
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 700px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero { padding: 0 1.5rem 4rem; }
+  .about { padding: 5rem 1.5rem; }
+  .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .about-left { position: static; }
+  .projects { padding: 5rem 1.5rem; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .gallery-header { padding: 0 1.5rem 2.5rem; }
+  .gallery-controls { padding: 1.25rem 1.5rem 0; }
+  footer { padding: 2rem 1.5rem; }
+  .footer-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="#home">Kaidaz18</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Kaidaz18 &nbsp;&middot;&nbsp; Creator &amp; Developer</p>
+    <h1 class="hero-title">Building things<br><em>worth sharing.</em></h1>
+    <p class="hero-sub">Developer, creator, maker. I build projects that push what I know and share them with the world.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-fill">View Projects</a>
+      <a href="#about" class="btn btn-outline">About Me</a>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-left reveal">
+      <p class="section-label">About</p>
+      <h2 class="about-heading">Who I am &amp;<br><em>what I make</em></h2>
+      <img class="about-photo" src="https://kaidaz18yt.github.io/images/lander.png" alt="Kaidaz18" onerror="this.style.display='none'">
+    </div>
+    <div class="about-right reveal">
+      <div class="about-body">
+        <p>I'm Kaidaz18 — a self-driven creator and developer. I got into making things because I wanted to build stuff that didn't exist yet, and I haven't stopped since.</p>
+        <p>My work ranges from games and tools to creative experiments. I share everything publicly because I think the best way to improve is to put your work out there.</p>
+        <p>This site is the central hub for everything I've made. Take a look around.</p>
+      </div>
+      <hr class="divider">
+      <p class="section-label">What I work with</p>
+      <div class="skill-list">
+        <span class="skill-chip">Game Dev</span>
+        <span class="skill-chip">Web</span>
+        <span class="skill-chip">Design</span>
+        <span class="skill-chip">Tools</span>
+        <span class="skill-chip">Open Source</span>
+        <span class="skill-chip">Content</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="projects" id="projects">
+  <div class="projects-inner">
+    <div class="section-header reveal">
+      <p class="section-label">Work</p>
+      <h2 class="section-heading">Projects</h2>
+    </div>
+    <div class="projects-grid">
+      <a class="project-card reveal" href="https://kaidaz18yt.github.io" target="_blank">
+        <span class="project-num">01</span>
+        <img class="project-thumb" src="https://kaidaz18yt.github.io/images/lander.png" alt="Website" onerror="this.style.display='none'">
+        <h3 class="project-name">My Website</h3>
+        <p class="project-desc">The main hub for everything I create and share online.</p>
+        <span class="project-link">kaidaz18yt.github.io &rarr;</span>
+      </a>
+      <a class="project-card reveal" href="#" target="_blank">
+        <span class="project-num">02</span>
+        <h3 class="project-name">Project Two</h3>
+        <p class="project-desc">Add a short description of your second project here.</p>
+        <span class="project-link">View project &rarr;</span>
+      </a>
+      <a class="project-card reveal" href="#" target="_blank">
+        <span class="project-num">03</span>
+        <h3 class="project-name">Project Three</h3>
+        <p class="project-desc">Add a short description of your third project here.</p>
+        <span class="project-link">View project &rarr;</span>
+      </a>
+      <a class="project-card reveal" href="#" target="_blank">
+        <span class="project-num">04</span>
+        <h3 class="project-name">Project Four</h3>
+        <p class="project-desc">Add a short description of your fourth project here.</p>
+        <span class="project-link">View project &rarr;</span>
+      </a>
+      <a class="project-card reveal" href="#" target="_blank">
+        <span class="project-num">05</span>
+        <h3 class="project-name">Project Five</h3>
+        <p class="project-desc">Add a short description of your fifth project here.</p>
+        <span class="project-link">View project &rarr;</span>
+      </a>
+      <a class="project-card reveal" href="#" target="_blank">
+        <span class="project-num">06</span>
+        <h3 class="project-name">Project Six</h3>
+        <p class="project-desc">Add a short description of your sixth project here.</p>
+        <span class="project-link">View project &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="gallery" id="gallery">
+  <div class="gallery-header reveal">
+    <p class="section-label">Gallery</p>
+    <h2 class="section-heading">Screenshots &amp; highlights</h2>
+  </div>
+  <div class="gallery-wrap" id="gWrap">
+    <div class="gallery-track" id="gTrack">
+      <div class="gallery-item"><img src="https://kaidaz18yt.github.io/images/lander.png" alt="Screenshot" onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'>Add image</div>'"></div>
+      <div class="gallery-item"><div class="gallery-placeholder">Image 2</div></div>
+      <div class="gallery-item"><div class="gallery-placeholder">Image 3</div></div>
+      <div class="gallery-item"><div class="gallery-placeholder">Image 4</div></div>
+      <div class="gallery-item"><div class="gallery-placeholder">Image 5</div></div>
+      <div class="gallery-item"><div class="gallery-placeholder">Image 6</div></div>
+      <div class="gallery-item"><div class="gallery-placeholder">Image 7</div></div>
+      <div class="gallery-item"><div class="gallery-placeholder">Image 8</div></div>
+      <div class="gallery-item"><img src="https://kaidaz18yt.github.io/images/lander.png" alt="Screenshot copy" onerror="this.parentElement.innerHTML='<div class=\'gallery-placeholder\'>Add image</div>'"></div>
+      <div class="gallery-item"><div class="gallery-placeholder">Image 2</div></div>
+      <div class="gallery-item"><div class="gallery-placeholder">Image 3</div></div>
+      <div class="gallery-item"><div class="gallery-placeholder">Image 4</div></div>
+    </div>
+  </div>
+  <div class="gallery-controls">
+    <button class="gctl" id="gPrev">&#8592;</button>
+    <button class="gctl" id="gPause">&#9646;&#9646;</button>
+    <button class="gctl" id="gNext">&#8594;</button>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-copy">Kaidaz18 &copy; 2025</span>
+  <ul class="footer-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="https://kaidaz18yt.github.io" target="_blank">Website</a></li>
+  </ul>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', scrollY > 40);
+});
+
+const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }), { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+const track = document.getElementById('gTrack');
+const wrap = document.getElementById('gWrap');
+const IW = 300 + 10, TOTAL = 8, LOOP = IW * TOTAL;
+let pos = 0, speed = 0.45, paused = false, dragging = false, dX = 0, dP = 0;
+
+(function tick() {
+  if (!paused && !dragging) {
+    pos += speed;
+    if (pos >= LOOP) pos -= LOOP;
+    track.style.transform = `translateX(-${pos}px)`;
+  }
+  requestAnimationFrame(tick);
+})();
+
+wrap.addEventListener('mousedown', e => { dragging = true; dX = e.clientX; dP = pos; });
+window.addEventListener('mousemove', e => { if (!dragging) return; pos = ((dP + dX - e.clientX) % LOOP + LOOP) % LOOP; track.style.transform = `translateX(-${pos}px)`; });
+window.addEventListener('mouseup', () => { dragging = false; });
+wrap.addEventListener('touchstart', e => { dragging = true; dX = e.touches[0].clientX; dP = pos; }, { passive: true });
+wrap.addEventListener('touchmove', e => { if (!dragging) return; pos = ((dP + dX - e.touches[0].clientX) % LOOP + LOOP) % LOOP; track.style.transform = `translateX(-${pos}px)`; }, { passive: true });
+wrap.addEventListener('touchend', () => { dragging = false; });
+
+document.getElementById('gPrev').onclick = () => { pos = ((pos - IW * 2) % LOOP + LOOP) % LOOP; };
+document.getElementById('gNext').onclick = () => { pos = (pos + IW * 2) % LOOP; };
+const pb = document.getElementById('gPause');
+pb.onclick = () => { paused = !paused; pb.innerHTML = paused ? '&#9654;' : '&#9646;&#9646;'; };
+</script>
+</body>
+</html>
